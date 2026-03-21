@@ -147,7 +147,7 @@ Use: .github/prompts/forge/03-reconstruct.prompt.md
   - Application code with inline documentation
   - Unit tests
   - Integration tests (where applicable)
-  - Infrastructure-as-Code changes (Terraform, Kubernetes manifests)
+  - Infrastructure-as-Code changes (Terraform, AWS infrastructure definitions, and deployment automation)
   - CI/CD pipeline updates
   - API documentation updates
 - In **Dark Factory mode**, stories are distributed across parallel git worktrees and worked simultaneously by a fleet of agents
@@ -156,9 +156,9 @@ Use: .github/prompts/forge/03-reconstruct.prompt.md
 ### Output Artifacts
 - Source code in `solution/` (organized by component)
 - Test suites for each component
-- Terraform modules in `solution/infra/`
-- Kubernetes manifests in `solution/k8s/`
-- Jenkins pipeline definitions in `solution/ci/`
+- Terraform stacks in `solution/infra/`
+- Deployment manifests or platform definitions when the project uses them
+- Jenkins pipeline definitions in `solution/ci/` or stack-local `Jenkinsfile`s
 - Updated API documentation
 
 ### SDLC Mapping

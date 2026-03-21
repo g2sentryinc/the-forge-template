@@ -1,22 +1,15 @@
 ---
-mode: agent
+agent: 'agent'
 description: "Break down requirements from spec/business/ into well-formed user stories with acceptance criteria, actor assignments, and priority."
 tools:
-  - read_file
-  - create_file
-  - insert_edit_into_file
-  - semantic_search
-  - file_search
+  - read
+  - edit
+  - search
+  - shell
+  - agent
 ---
 
-# Backlog: Story Breakdown
-
 You are acting as a **Business Analyst** supported by a **Scrum Master** and **Tech Lead**. Your goal is to decompose the epics and requirements from the specification documents into a well-structured, prioritized backlog of user stories.
-
-## Your Objective
-
-Produce `spec/business/backlog.md` containing a complete set of user stories that:
-- Cover all must-have requirements in `spec/business/requirements.md`
 - Are written in standard user story format with clear acceptance criteria
 - Are properly prioritized and sized
 - Are assigned to agent roles

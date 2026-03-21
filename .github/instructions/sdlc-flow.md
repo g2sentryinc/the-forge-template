@@ -260,7 +260,7 @@ Implement all stories in the iteration. Produce working, tested, documented code
 - **Java Backend Developer** — Spring Boot/WebFlux/Cloud services
 - **React Frontend Developer** — UI components, state management, API integration
 - **Mobile Developer** — Expo React Native screens and features
-- **DevOps Engineer** — Infrastructure, CI/CD, Kubernetes manifests
+- **DevOps Engineer** — AWS infrastructure, Terraform stacks, and Jenkins CI/CD
 
 ### Development Modes
 
@@ -352,7 +352,7 @@ Deploy the validated release candidate to production (or staging) and update all
 1. Merge all iteration PRs to main branch
 2. Create release tag (semantic versioning)
 3. Trigger CI/CD pipeline (Jenkins)
-4. Deploy to Kubernetes (staging first, then production)
+4. Deploy to the target runtime platform (for example ECS/Fargate, Kubernetes, or another approved runtime) starting with staging when applicable
 5. Post-deployment smoke tests
 6. Update CHANGELOG.md
 7. Notify stakeholders

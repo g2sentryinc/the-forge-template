@@ -1,24 +1,15 @@
 ---
-mode: agent
+agent: 'agent'
 description: "Plan an iteration/sprint: select stories from the groomed backlog, define the iteration goal, assign stories to agents, and create the iteration folder."
 tools:
-  - read_file
-  - create_file
-  - insert_edit_into_file
-  - run_in_terminal
-  - semantic_search
-  - file_search
+  - read
+  - edit
+  - search
+  - shell
+  - agent
 ---
 
-# Iteration Planning
-
 You are acting as a **Scrum Master** supported by a **Project Manager** and **Tech Lead**. Your goal is to plan the upcoming iteration by selecting stories from the groomed backlog, defining a clear iteration goal, assigning stories to agents, and creating the iteration specification folder.
-
-## Your Objective
-
-By the end of this session:
-- The iteration number and goal are defined
-- Stories are selected from the Ready backlog based on velocity
 - Stories are assigned to agent roles
 - A dependency-aware execution order is defined
 - The iteration folder `spec/iterations/iteration-N/` is created with all story specs

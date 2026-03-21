@@ -172,6 +172,13 @@ the-forge-template/
 │   │   └── qa-engineer.md
 │   │
 │   └── skills/                ← Reusable skill definitions
+│       ├── api-first.md
+│       ├── spring-boot-webflux.md
+│       ├── expo-react-native.md
+│       ├── react-web-frontend.md
+│       ├── react-virtualized-crud-tables.md
+│       ├── aws-terraform-jenkins-infrastructure.md
+│       ├── aws-ecs-fargate-runtime-deployments.md
 │       ├── code-review.md
 │       ├── refactoring.md
 │       ├── testing.md
@@ -228,6 +235,14 @@ the-forge-template/
 ---
 
 ## Quick Start
+
+Simple CLI runbook: [`COPILOT-CLI-RUNBOOK.md`](COPILOT-CLI-RUNBOOK.md)
+
+### Model Policy
+
+- Default to `GPT-5 Mini` for routine work: backlog grooming, iteration planning, generation, edits, tests, refactors, docs, and implementation.
+- Use a premium model only for high-level analysis: greenfield framing, brownfield analysis, large architecture trade-offs, or explicit user request.
+- After analysis is complete, switch back to `GPT-5 Mini` before continuing execution work.
 
 ### Mode 1: Greenfield (New Project)
 
@@ -341,9 +356,9 @@ Human checkpoints occur after every stage. The user reviews artifacts and decide
 | **Scrum Master** | `agents/scrum-master.md` | Agile ceremonies, backlog health, flow |
 | **Tech Lead** | `agents/tech-lead.md` | Code standards, architecture compliance, reviews |
 | **Java Backend Dev** | `agents/java-backend-developer.md` | Spring Boot 3, WebFlux, Spring Cloud |
-| **React Frontend Dev** | `agents/react-frontend-developer.md` | React 18, TypeScript, TanStack Query |
+| **React Frontend Dev** | `agents/react-frontend-developer.md` | React web frontends, TypeScript, TanStack Query, shadcn/ui |
 | **Mobile Developer** | `agents/mobile-developer.md` | Expo React Native, Android + iOS |
-| **DevOps Engineer** | `agents/devops-engineer.md` | AWS, Terraform, Kubernetes, Jenkins |
+| **DevOps Engineer** | `agents/devops-engineer.md` | AWS infrastructure, Terraform, Jenkins, CI/CD |
 | **QA Engineer** | `agents/qa-engineer.md` | Testing strategy, automation, quality gates |
 
 ### Invoking an Agent
@@ -360,7 +375,7 @@ This template is designed for (but not limited to):
 | Layer | Technology |
 |-------|-----------|
 | Backend | Java 21 · Spring Boot 3.x · Spring WebFlux · Spring Cloud |
-| Frontend | React 18 · TypeScript · Vite · TanStack Query · Zustand · Tailwind CSS |
+| Frontend | React · TypeScript · Vite · React Router · TanStack Query · Zustand · Tailwind CSS · shadcn/ui |
 | Mobile | Expo SDK · React Native · TypeScript · Expo Router |
 | Database | PostgreSQL (R2DBC) · DynamoDB · Redis |
 | Cloud | AWS (EKS, RDS, S3, ElastiCache, Route 53, ACM, Secrets Manager) |
@@ -429,6 +444,13 @@ type: business
 
 → Full format guide: [`.github/instructions/openspec-format.md`](.github/instructions/openspec-format.md)
 → Authoring skill: [`.github/skills/openspec-authoring.md`](.github/skills/openspec-authoring.md)
+→ API-First skill: [`.github/skills/api-first.md`](.github/skills/api-first.md)
+→ Spring Boot WebFlux quality skill: [`.github/skills/spring-boot-webflux.md`](.github/skills/spring-boot-webflux.md)
+→ Expo React Native quality skill: [`.github/skills/expo-react-native.md`](.github/skills/expo-react-native.md)
+→ React web frontend quality skill: [`.github/skills/react-web-frontend.md`](.github/skills/react-web-frontend.md)
+→ React virtualized CRUD tables skill: [`.github/skills/react-virtualized-crud-tables.md`](.github/skills/react-virtualized-crud-tables.md)
+→ AWS Terraform Jenkins infrastructure skill: [`.github/skills/aws-terraform-jenkins-infrastructure.md`](.github/skills/aws-terraform-jenkins-infrastructure.md)
+→ AWS ECS/Fargate runtime and deployments skill: [`.github/skills/aws-ecs-fargate-runtime-deployments.md`](.github/skills/aws-ecs-fargate-runtime-deployments.md)
 → Spec folder guide: [`spec/README.md`](spec/README.md)
 
 ---

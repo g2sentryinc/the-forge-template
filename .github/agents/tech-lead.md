@@ -31,6 +31,7 @@
 - Effective Java principles (Joshua Bloch)
 - SOLID principles applied to Spring components
 - Clean Code (Robert Martin) naming and structure conventions
+- **Primary quality reference:** `.github/skills/spring-boot-webflux.md` — apply to all Java backend work
 
 **Spring Boot Standards:**
 - Spring Boot 3.x with Spring Framework 6
@@ -72,9 +73,38 @@
 - Function components only (no class components in new code)
 - Custom hooks for all reusable logic
 - `useMemo` and `useCallback` only when profiling shows a need (premature optimization)
-- React Query for all server state — no manual fetch in `useEffect`
+- TanStack Query for normal server state; use bounded-memory custom fetch patterns for large virtualized lists when query caching is the wrong tool
 - Error boundaries on route-level components
 - Suspense for code splitting and loading states
+
+**React Web Standards:**
+- **Primary quality reference:** `.github/skills/react-web-frontend.md` — apply to all React web work
+- **Specialized table reference:** `.github/skills/react-virtualized-crud-tables.md` — apply to huge virtualized CRUD tables and bounded-memory list engines
+- Preserve feature-module routing and thin route files
+- API communication belongs in centralized axios clients and `services/api/*` modules
+- Reuse shared CRUD primitives such as form shells, toolbars, and data tables when the app architecture provides them
+- Persist only durable client state in Zustand; never dump fetched tables into stores
+- Keep virtualized CRUD tables memory-bounded; do not accumulate unbounded page caches
+
+### Expo React Native
+
+**Mobile Standards:**
+- **Primary quality reference:** `.github/skills/expo-react-native.md` — apply to all Expo/React Native work
+- Expo Router for file-based navigation and route groups
+- `app/entry.ts` owns one-time startup side-effects; `app/_layout.tsx` owns providers and route shell
+- API communication goes through centralized service clients with interceptors, not raw calls in screens
+- React Hook Form for non-trivial forms; Zustand only for cross-screen client state
+- Notifications are centralized in a provider/service with listener cleanup and backend token registration
+
+### AWS / Terraform / Jenkins
+
+**Infrastructure Standards:**
+- **Primary quality references:** `.github/skills/aws-terraform-jenkins-infrastructure.md` for Terraform + Jenkins provisioning work and `.github/skills/aws-ecs-fargate-runtime-deployments.md` for ECS/Fargate runtime and deployment work
+- Keep one clear Terraform stack boundary per deployable infrastructure unit
+- Jenkins pipelines must separate `init`, `plan`, approval, and `apply`
+- Environment handling must be explicit through env files or intentional multi-env loops
+- Parameter Store paths, state keys, and AWS naming must be predictable and environment-scoped
+- Existing legacy risks such as unencrypted state defaults or manual secret placeholders should be flagged, not copied blindly
 
 ### Code Review Standards
 
@@ -85,6 +115,24 @@
 4. Test coverage for all new code (unit tests minimum, integration tests for complex paths)
 5. No commented-out code in PRs
 6. Conventional commit messages
+7. No `XxxServiceImpl` naming, no stereotype suffixes (`DTO`, `Impl`, `I`, `Model`) — use domain-meaningful names
+8. No `@Autowired` field injection — constructor injection only
+9. No `.block()` in reactive chains
+10. No multi-statement lambdas in reactive pipelines (`-> { ... }`) — extract named methods
+11. Each class has ≤ 3 injected dependencies (flag SRP violations)
+12. No objects crossing more than one layer boundary
+13. No raw HTTP calls in Expo screens — side-effects belong in `services/`
+14. Persisted mobile state is scoped intentionally — no dumping full UI state into AsyncStorage/Zustand
+15. Notification listeners are cleaned up and permission flow is centralized
+16. Sensitive mobile secrets/tokens are not stored in plain AsyncStorage without explicit justification
+17. No raw `axios`/`fetch` calls in React route components or pages
+18. React feature routes stay thin — logic belongs in hooks/services, not route wrappers
+19. Query usage is deliberate — no unbounded infinite table caches when a paged state-manager design is required
+20. Shared CRUD primitives are reused instead of copy-pasted per entity
+21. No real secrets in Terraform `tfvars`, defaults, or Jenkinsfiles
+22. Terraform stacks must use unique backend keys and explicit environment handling
+23. Infrastructure pipelines must keep manual approval before `apply` or `destroy`
+24. `ignore_changes` on secrets or mutable infrastructure fields must be intentional and documented
 
 **Architecture compliance:**
 1. New code follows the established layering (controller → service → repository)

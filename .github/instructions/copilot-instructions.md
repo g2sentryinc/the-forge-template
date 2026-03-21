@@ -105,7 +105,7 @@ Each agent in `.github/agents/` represents a specialized Copilot persona:
 - **Java Backend Developer** — Spring Boot, WebFlux, Spring Cloud
 - **React Frontend Developer** — React, TypeScript, UI/UX
 - **Mobile Developer** — Expo React Native (Android/iOS)
-- **DevOps Engineer** — AWS, Terraform, Jenkins, Kubernetes
+- **DevOps Engineer** — AWS infrastructure, Terraform, Jenkins, and deployment systems
 - **QA Engineer** — Testing strategy, automation, quality gates
 
 To invoke an agent persona, reference the agent file at the start of your Copilot session:
@@ -123,12 +123,18 @@ When operating in this workspace, Copilot **MUST**:
 2. **Follow the SDLC flow** — Do not skip phases. Frame before Generate. Obstruct before Reconstruct.
 3. **Respect specifications** — All generated code must trace back to a spec in `spec/`. Do not invent requirements.
 4. **Use OpenSpec format** — All specifications must follow the OpenSpec.dev format defined in `.github/instructions/openspec-format.md`.
-5. **Agent fidelity** — When acting as an agent, stay in that role. Do not conflate responsibilities.
-6. **Document decisions** — Every significant decision (architectural, product, technical) must be recorded as an ADR or spec entry.
-7. **Small, reviewable commits** — Generate code in small, logically coherent units. Each story = one branch + one PR.
-8. **Test-first mindset** — When generating implementation code, also generate corresponding tests.
-9. **Security by default** — Never generate code with hardcoded secrets, insecure defaults, or known vulnerability patterns.
-10. **Confirm before destructive actions** — Before deleting, overwriting, or making breaking changes, ask the user to confirm.
+5. **API-First** — Before implementing any REST endpoint, the OpenAPI spec must exist and be agreed in `spec/technical/api-contracts.yaml`. Follow `.github/skills/api-first.md` for conventions.
+6. **Expo mobile work follows the mobile skill** — For Expo/React Native stories, follow `.github/skills/expo-react-native.md` for route structure, state, API communication, notifications, config, and anti-patterns.
+7. **React web work follows the web skill** — For React website and admin UI stories, follow `.github/skills/react-web-frontend.md` for feature routing, CRUD structure, API clients, forms, entity patterns, state, and anti-patterns.
+8. **Large React data grids follow the table skill** — For huge virtualized CRUD tables, also follow `.github/skills/react-virtualized-crud-tables.md` for bounded-memory paging, state-manager contracts, toolbar orchestration, and row-action update patterns.
+9. **AWS infrastructure work follows the AWS skills** — For Terraform + Jenkins infrastructure changes, follow `.github/skills/aws-terraform-jenkins-infrastructure.md` for stack boundaries, state handling, env files, parameter stacks, and AWS design rules, and follow `.github/skills/aws-ecs-fargate-runtime-deployments.md` for ECS/Fargate runtime, image delivery, ALB integration, and rollout rules.
+10. **Use low-cost models by default** — Default to `GPT-5 Mini` for routine execution work such as backlog grooming, iteration planning, generation, editing, tests, refactors, docs, and implementation. Use a premium model only for high-level analysis tasks such as greenfield framing, brownfield analysis, large architecture trade-off analysis, or when the user explicitly asks for it.
+11. **Agent fidelity** — When acting as an agent, stay in that role. Do not conflate responsibilities.
+12. **Document decisions** — Every significant decision (architectural, product, technical) must be recorded as an ADR or spec entry.
+13. **Small, reviewable commits** — Generate code in small, logically coherent units. Each story = one branch + one PR.
+14. **Test-first mindset** — When generating implementation code, also generate corresponding tests.
+15. **Security by default** — Never generate code with hardcoded secrets, insecure defaults, or known vulnerability patterns.
+16. **Confirm before destructive actions** — Before deleting, overwriting, or making breaking changes, ask the user to confirm.
 
 ---
 
@@ -142,6 +148,28 @@ When operating in this workspace, Copilot **MUST**:
 | `.github/instructions/dark-factory.md` | StrongDM Dark Factory model |
 | `.github/instructions/openspec-format.md` | OpenSpec.dev specification format |
 | `spec/README.md` | Spec folder structure guide |
+
+## Skills Available
+
+| Skill | Purpose |
+|-------|---------|
+| `.github/skills/api-first.md` | API-First principle — OpenAPI spec conventions, naming, status codes, CRUD mapping, pagination, and FORGE integration |
+| `.github/skills/spring-boot-webflux.md` | Spring Boot WebFlux quality code — project structure, layers, clean code, reactive patterns, MapStruct, records, error handling, anti-patterns |
+| `.github/skills/expo-react-native.md` | Expo React Native mobile quality code — route structure, API communication, forms, Zustand, notifications, config, performance, and anti-patterns |
+| `.github/skills/react-web-frontend.md` | React web frontend quality code — feature routing, centralized API clients, entity and CRUD patterns, forms, Zustand, and design-system consistency |
+| `.github/skills/react-virtualized-crud-tables.md` | React virtualized CRUD tables — bounded-memory page windows, state-manager contracts, toolbar orchestration, row updates, and large-dataset pitfalls |
+| `.github/skills/aws-terraform-jenkins-infrastructure.md` | AWS infrastructure provisioning — Terraform stack boundaries, Jenkins pipelines, S3 state, env tfvars, Parameter Store, and AWS design guidance |
+| `.github/skills/aws-ecs-fargate-runtime-deployments.md` | AWS runtime and deployment patterns — ECS/Fargate services, task definitions, ALB integration, image publishing, EFS usage, and rollout guidance |
+| `.github/skills/openspec-authoring.md` | Writing OpenSpec specification documents |
+| `.github/skills/code-review.md` | Code review guidelines |
+| `.github/skills/testing.md` | Testing strategy and patterns |
+| `.github/skills/refactoring.md` | Safe refactoring techniques |
+| `.github/skills/documentation.md` | Documentation standards |
+
+To apply a skill, reference it at the start of your session:
+```
+@workspace Read .github/skills/api-first.md and apply it when designing or reviewing APIs.
+```
 
 ---
 

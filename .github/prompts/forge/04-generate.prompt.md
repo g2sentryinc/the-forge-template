@@ -1,13 +1,12 @@
 ---
-mode: agent
+agent: 'agent'
 description: "FORGE Phase 4 — Generate: Produce code, infrastructure, tests, and documentation based on specifications. Works story by story using appropriate agent roles."
 tools:
-  - read_file
-  - create_file
-  - insert_edit_into_file
-  - run_in_terminal
-  - semantic_search
-  - file_search
+  - read
+  - edit
+  - search
+  - shell
+  - agent
 ---
 
 # FORGE Phase 4: GENERATE
@@ -108,19 +107,19 @@ solution/backend/
 
 #### React Frontend Developer Role
 
-**Technology:** React 18+, TypeScript, Vite, React Query (TanStack Query), Zustand or Redux Toolkit, React Router v6, Tailwind CSS or shadcn/ui, Vitest + React Testing Library
+**Technology:** React 19+, TypeScript, Vite, TanStack Query, Zustand, React Router feature modules, React Hook Form, Tailwind CSS + shadcn/ui, Vitest + React Testing Library
 
 **Project Structure:**
 ```
 solution/frontend/
   src/
-    components/     ← Reusable UI components
-    pages/          ← Page-level components (route targets)
-    hooks/          ← Custom React hooks
-    services/       ← API client functions (using React Query)
-    store/          ← Zustand/Redux state management
+    components/     ← Reusable UI, form, and table primitives
+    features/       ← Lazy-loaded route modules by feature
+    hooks/          ← Query hooks, mutations, and UI logic
+    services/       ← Centralized axios clients and endpoint modules
+    store/          ← Zustand state management
     types/          ← TypeScript type definitions
-    utils/          ← Utility functions
+    lib/            ← Guards, navigation, and cross-cutting helpers
   src/test/         ← Vitest + React Testing Library tests
   public/
   index.html
@@ -130,13 +129,16 @@ solution/frontend/
 
 **Code Standards:**
 - All components as function components with TypeScript
+- Follow `.github/skills/react-web-frontend.md` as the primary quality reference
+- For huge virtualized CRUD tables, also follow `.github/skills/react-virtualized-crud-tables.md`
 - Custom hooks for all non-trivial logic
-- React Query for all server state (no manual fetch/useEffect for data)
-- Zustand for local client state
+- TanStack Query for standard server state; use bounded-memory custom fetch strategies for huge virtualized CRUD lists when appropriate
+- Zustand for durable client state only
 - Strict TypeScript (no `any`)
 - Component tests with React Testing Library (test behavior, not implementation)
 - Accessible components (ARIA attributes, keyboard navigation)
 - Responsive design (mobile-first)
+- Centralized API communication via shared clients, not raw HTTP calls in pages
 
 **Tests:**
 - Unit tests for utility functions and hooks
@@ -147,7 +149,7 @@ solution/frontend/
 
 #### Mobile Developer Role
 
-**Technology:** Expo SDK (latest stable), React Native, TypeScript, Expo Router, React Query, Zustand, NativeWind (Tailwind for RN), Jest + React Native Testing Library
+**Technology:** Expo SDK (latest stable), React Native, TypeScript, Expo Router, React Hook Form, Zustand, TanStack Query, Jest + React Native Testing Library
 
 **Project Structure:**
 ```
@@ -168,11 +170,13 @@ solution/mobile/
 - Use Expo managed workflow unless bare workflow is explicitly required
 - TypeScript strict mode
 - Expo Router for navigation (file-based)
+- Follow `.github/skills/expo-react-native.md` as the primary quality reference
 - Handle both Android and iOS platform differences explicitly
-- Use `Platform.OS` for platform-specific behavior
-- AsyncStorage or SecureStore for local persistence
+- Use `Platform.OS` or platform-specific files for platform behavior
+- Centralize API communication in `services/` with shared clients/interceptors
+- Use SecureStore for sensitive tokens; keep AsyncStorage for non-sensitive persisted UI/workflow state
 - Deep link handling via Expo Router
-- Push notifications via Expo Notifications
+- Push notifications via Expo Notifications with centralized listeners/provider
 
 **Tests:**
 - Unit tests for business logic
@@ -183,44 +187,36 @@ solution/mobile/
 
 #### DevOps Engineer Role
 
-**Technology:** Terraform (AWS provider), Kubernetes manifests, Helm charts, Jenkins declarative pipelines, AWS (EKS, RDS, S3, ElastiCache, Route53, ACM, Secrets Manager, CloudWatch, X-Ray)
+**Technology:** Terraform (AWS provider), Jenkins declarative pipelines, AWS (RDS, S3, EFS, ALB, CloudFront, Route53, ACM, EventBridge, Parameter Store, Secrets Manager, CloudWatch)
 
 **Project Structure:**
 ```
 solution/infra/
-  terraform/
-    modules/        ← Reusable Terraform modules
-    environments/
-      dev/
-      staging/
-      prod/
-  k8s/
-    base/           ← Kustomize base manifests
-    overlays/
-      dev/
-      staging/
-      prod/
-  helm/
-    [chart-name]/   ← Custom Helm charts
-  ci/
-    Jenkinsfile     ← Jenkins pipeline
-    jenkins/        ← Jenkins shared library
+  <stack-name>/
+    Jenkinsfile
+    terraform/
+      env/
+        dev.tfvars
+        demo.tfvars
+        prod.tfvars
+      provider.tf
+      variables.tf
+      outputs.tf
+      <resource-files>.tf
 ```
 
 **Code Standards:**
+- Follow `.github/skills/aws-terraform-jenkins-infrastructure.md` for Terraform stack design and provisioning
+- Follow `.github/skills/aws-ecs-fargate-runtime-deployments.md` for ECS/Fargate runtime, image publishing, ALB integration, and deployment behavior
 - All Terraform resources must have tags (Environment, Project, ManagedBy=terraform)
-- Use Terraform workspaces or separate state files per environment
-- Never hardcode credentials — use AWS Secrets Manager
-- All Kubernetes deployments must have resource requests/limits
-- All pods must have liveness and readiness probes
-- Use namespaces to separate environments
-- Jenkins pipelines must include: build, test, scan, package, deploy stages
+- Use unique remote state keys per stack and explicit env tfvars where appropriate
+- Never hardcode credentials or real secrets in repo-managed Terraform values
+- Jenkins pipelines must include: init, plan, approval, and apply stages
 - All infrastructure changes must pass `terraform plan` review before `apply`
 
 **Validation:**
 - `terraform validate` must pass
 - `terraform fmt` must pass (no formatting issues)
-- `kubectl apply --dry-run=client` must pass
 - Jenkins pipeline syntax must be valid
 
 ---

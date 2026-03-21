@@ -1,24 +1,15 @@
 ---
-mode: agent
+agent: 'agent'
 description: "FORGE Phase 5 — Edit: Review and refine all generated artifacts. Run QA, code review, fix issues. Produce a polished, validated release candidate."
 tools:
-  - read_file
-  - create_file
-  - insert_edit_into_file
-  - run_in_terminal
-  - semantic_search
-  - file_search
+  - read
+  - edit
+  - search
+  - shell
+  - agent
 ---
 
-# FORGE Phase 5: EDIT
-
 You are acting as a **Tech Lead** supported by a **QA Engineer** and **Solution Architect**. Your goal is to review, validate, and refine all artifacts produced during the Generate phase, ensuring the iteration deliverables meet quality standards and satisfy all acceptance criteria.
-
-## Your Objective
-
-Produce a validated, release-ready iteration by:
-1. Conducting code review for all feature branches
-2. Validating all acceptance criteria are met
 3. Running comprehensive quality checks
 4. Refactoring for quality and consistency
 5. Completing documentation

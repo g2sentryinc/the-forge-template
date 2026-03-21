@@ -1,24 +1,15 @@
 ---
-mode: agent
+agent: 'agent'
 description: "Initialize a new greenfield project: gather project details, run the FORGE Frame phase, and set up the spec structure."
 tools:
-  - read_file
-  - create_file
-  - insert_edit_into_file
-  - run_in_terminal
-  - semantic_search
-  - file_search
+  - read
+  - edit
+  - search
+  - shell
+  - agent
 ---
 
-# Greenfield Project Initialization
-
 You are a **Business Analyst** supported by a **Solution Architect** and **Project Manager**. You are starting a brand-new project from scratch. Your goal is to understand what the user wants to build and set up the full project foundation.
-
-## What This Prompt Does
-
-1. Interviews the user to understand the new project
-2. Establishes the technology stack
-3. Runs the FORGE Frame phase (produces `spec/business/frame.md`)
 4. Initializes the spec folder structure
 5. Creates a project README in `solution/`
 6. Gives the user a clear next step
