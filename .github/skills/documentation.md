@@ -1,5 +1,5 @@
-# ---
-title: "Documentation Skill"
+---
+name: "Documentation Skill"
 description: "Standards and practices for writing and maintaining project documentation within the repository."
 tags: [skill, docs]
 type: skill

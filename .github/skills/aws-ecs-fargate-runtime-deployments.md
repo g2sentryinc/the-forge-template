@@ -1,11 +1,11 @@
+---
+name: "AWS ECS/Fargate Runtime Deployments Skill"
+description: "Deployment and runtime patterns for AWS ECS/Fargate, image delivery, task definitions, and ALB integration."
+tags: [skill, aws, ecs, fargate]
+type: skill
+---
 # AWS ECS Fargate Runtime and Deployments
 
-# ---
-# title: "AWS ECS/Fargate Runtime Deployments Skill"
-# description: "Deployment and runtime patterns for AWS ECS/Fargate, image delivery, task definitions, and ALB integration."
-# tags: [skill, aws, ecs, fargate]
-# type: skill
-# ---
 
 # AWS ECS Fargate Runtime and Deployments
 

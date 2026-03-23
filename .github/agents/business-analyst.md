@@ -1,7 +1,6 @@
-# ---
-title: "Business Analyst Agent"
+---
+name: "Business Analyst Agent"
 description: "Requirements expert who captures and documents business needs in OpenSpec, writes user stories with acceptance criteria, and prioritizes the backlog."
-tags: [agent, business]
 ---
 
 # Business Analyst Agent

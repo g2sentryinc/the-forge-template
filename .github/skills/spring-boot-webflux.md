@@ -1,5 +1,5 @@
-# ---
-title: "Spring Boot WebFlux — Quality Code Skill"
+---
+name: "Spring Boot WebFlux — Quality Code Skill"
 description: "Quality guidance for Java Spring Boot WebFlux projects: structure, reactive patterns, testing, and anti-patterns."
 tags: [skill, backend, java]
 type: skill

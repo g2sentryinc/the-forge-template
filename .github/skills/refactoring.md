@@ -1,5 +1,5 @@
-# ---
-title: "Refactoring Skill"
+---
+name: "Refactoring Skill"
 description: "Guidelines and patterns for safe refactoring, including rules of when and how to refactor with tests."
 tags: [skill, refactor]
 type: skill

@@ -1,5 +1,5 @@
-# ---
-title: "API-First Design Skill"
+---
+name: "API-First Design Skill"
 description: "Design and author OpenAPI-first REST API contracts before implementation; use for spec-first workflows and generation."
 tags: [skill, api-first]
 type: skill

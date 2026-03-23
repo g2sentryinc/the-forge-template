@@ -209,17 +209,17 @@ the-forge-template/
 ### By Technology Layer (install what you need)
 
 **Backend (Java/Spring Boot):**
-- Java 21+ — [Adoptium Temurin](https://adoptium.net/) recommended
-- Maven 3.9+ (or use the included `mvnw` wrapper)
+- Java 25+ — [Adoptium Temurin](https://adoptium.net/) recommended
+- Gradle 9.4+ (or use the included `gradlew` wrapper)
 - Docker Desktop — for Testcontainers
 
 **Frontend (React):**
-- Node.js 20 LTS+
-- npm 10+ or pnpm 8+
+- Node.js 24+
+- npm 11+
 
 **Mobile (Expo React Native):**
-- Node.js 20 LTS+
-- Expo CLI: `npm install -g expo-cli`
+- Node.js 24+
+- Expo CLI: `npm install -g expo`
 - Android Studio (for Android emulator) and/or Xcode (for iOS simulator, macOS only)
 
 **Infrastructure (AWS/Terraform/Kubernetes):**
@@ -229,7 +229,7 @@ the-forge-template/
 - Helm 3+
 
 **CI/CD (Jenkins):**
-- Jenkins 2.400+ (LTS)
+- Jenkins 2.500+ (LTS)
 - Jenkins plugins: Pipeline, Kubernetes, Docker, Blue Ocean
 
 ---

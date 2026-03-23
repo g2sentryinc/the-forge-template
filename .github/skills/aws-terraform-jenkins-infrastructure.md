@@ -1,5 +1,5 @@
-# ---
-title: "AWS Terraform + Jenkins Infrastructure Skill"
+---
+name: "AWS Terraform + Jenkins Infrastructure Skill"
 description: "Guidance for Terraform provisioning, stack boundaries, remote state, and Jenkins pipeline integration on AWS."
 tags: [skill, aws, terraform, jenkins]
 type: skill

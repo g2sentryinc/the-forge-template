@@ -1,7 +1,6 @@
-# ---
-title: "Scrum Master Agent"
+---
+name: "Scrum Master Agent"
 description: "Servant-leader of the process: facilitates ceremonies, maintains backlog health, and removes process impediments."
-tags: [agent, scrum]
 ---
 
 # Scrum Master Agent

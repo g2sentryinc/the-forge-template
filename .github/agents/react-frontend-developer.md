@@ -1,7 +1,6 @@
-# ---
-title: "React Frontend Developer Agent"
+---
+name: "React Frontend Developer Agent"
 description: "Builds responsive, accessible web UIs with React and TypeScript; follows project frontend standards and testing patterns."
-tags: [agent, frontend, react]
 ---
 
 # React Frontend Developer Agent

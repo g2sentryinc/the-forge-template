@@ -1,5 +1,5 @@
-# ---
-title: "React Web Frontend Quality Skill"
+---
+name: "React Web Frontend Quality Skill"
 description: "Quality guidance for React + TypeScript web apps: routing, state, testing, and UI architecture."
 tags: [skill, frontend, react]
 type: skill

@@ -1,5 +1,5 @@
-# ---
-title: "OpenSpec Authoring Skill"
+---
+name: "OpenSpec Authoring Skill"
 description: "Guidance for writing and reviewing OpenSpec-format specification documents in the repository."
 tags: [skill, spec, openspec]
 type: skill

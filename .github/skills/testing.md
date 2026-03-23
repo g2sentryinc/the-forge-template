@@ -1,5 +1,5 @@
-# ---
-title: "Testing Skill"
+---
+name: "Testing Skill"
 description: "Testing strategies and patterns for unit, integration, E2E, performance, and security testing."
 tags: [skill, testing]
 type: skill

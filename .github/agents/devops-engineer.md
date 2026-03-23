@@ -1,7 +1,6 @@
-# ---
-title: "DevOps Engineer Agent"
+---
+name: "DevOps Engineer Agent"
 description: "Designs, builds, and maintains infrastructure and CI/CD for AWS using Terraform and Jenkins."
-tags: [agent, devops]
 ---
 
 # DevOps Engineer Agent

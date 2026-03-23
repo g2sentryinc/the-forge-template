@@ -1,5 +1,5 @@
-# ---
-title: "React Virtualized CRUD Tables Skill"
+---
+name: "React Virtualized CRUD Tables Skill"
 description: "Patterns for building virtualized, bounded-memory CRUD table engines with toolbar orchestration and page caching."
 tags: [skill, frontend, tables]
 type: skill

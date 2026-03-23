@@ -1,5 +1,5 @@
-# ---
-title: "Code Review Skill"
+---
+name: "Code Review Skill"
 description: "Defines how to conduct code reviews in the FORGE template; includes checklists and principles."
 tags: [skill, code-review]
 type: skill

@@ -1,5 +1,5 @@
-# ---
-title: "Expo React Native Mobile Quality Skill"
+---
+name: "Expo React Native Mobile Quality Skill"
 description: "Quality standards and architecture for Expo-managed React Native mobile apps; use for mobile feature work."
 tags: [skill, mobile, expo]
 type: skill
