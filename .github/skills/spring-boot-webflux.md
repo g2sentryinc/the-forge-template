@@ -393,7 +393,17 @@ LIMIT :first
 
 ## Mapping with MapStruct
 
-### Rules
+### Layer placement — CRITICAL
+
+Each mapper lives in the layer that **owns its output**. **Never import a class from a higher layer inside a lower-layer mapper.**
+
+| Mapper location | Maps between | May import |
+|-----------------|-------------|------------|
+| `controllers/{domain}/mappers/` | Service model → OpenAPI-generated API model | `controllers.openapi.*`, `services.{domain}.model.*` |
+| `services/{domain}/mappers/` | DAO/Remote DTO → Service model | `services.{domain}.model.*`, `dao.*` |
+| `dao/{domain}/mappers/` | DB row → DAO DTO | `dao.*` |
+| `controllers/utils/` | Utility type/enum converters shared across controller mappers | `controllers.openapi.*`, `Consts.*` |
+
 
 - One `@Mapper` interface per layer boundary (controller→service, service→entity, entity→view, row→DTO).
 - Do **not** add `@Mapping` for fields with identical names — MapStruct infers them automatically.
@@ -414,6 +424,22 @@ public interface MunicipalityServiceMapper {
 }
 ```
 
+**❌ Service-layer mapper importing OpenAPI model classes** — this is a hard architecture violation:
+
+```java
+// WRONG — service mapper must NOT reference API-layer classes
+package com.g2sentry.admin.services.guardians.mapper;
+import com.g2sentry.controllers.openapi.admin.model.GuardianProfile; // ← illegal cross-layer import
+```
+**✅ Controller-layer mapper is the correct home for API model mapping:**
+
+```java
+// CORRECT
+package com.g2sentry.admin.controllers.guardians.mappers;
+import com.g2sentry.controllers.openapi.admin.model.GuardianProfile; // ← allowed
+```
+
+
 - For `Map<String, Object>` → record mapping from dynamic queries:
 
 ```java
@@ -424,6 +450,99 @@ public interface MunicipalityRowMapper {
 ```
 
 - Reuse shared mappers (e.g. enum converters) via `uses = { CommonEnumMapper.class }` in `@Mapper`.
+
+---
+
+### Rules
+
+- One `@Mapper` interface per layer boundary (controller→service, service→entity, entity→view, row→DTO).
+- **Never** add `@Mapping` for fields with identical names — MapStruct infers them automatically.
+
+  ```java
+  // ❌ Redundant — MapStruct already handles same-name fields
+  @Mapping(target = "guardianId", source = "guardianId")
+  @Mapping(target = "email", source = "email")
+  GuardianProfile toProfile(GuardianEntity entity);
+
+  // ✅ Only annotate when names differ or special conversion is required
+  @Mapping(target = "userId", source = "guardianId")
+  @Mapping(target = "avatarUrl", ignore = true)
+  GuardianProfile toProfile(GuardianEntity entity);
+  ```
+
+- **Reuse utility mappers — two patterns depending on the utility type:**
+
+  **Pattern A — Plain interface utilities (preferred): use `extends`**
+
+  When the utility is a plain Java interface with `default` conversion methods (no `@Mapper` annotation) — e.g. `InstantMapper`, `IdentityVerificationStatusMapper`, `JobStatusMapper` — **extend it directly**. MapStruct sees the default methods and wires them automatically. `Mappers.getMapper()` works in tests without touching any generated `Impl` class.
+
+  ```java
+  // ❌ Wrong — inlining a conversion that already exists in a shared utility interface
+  @Named("toOffsetDateTime")
+  default OffsetDateTime toOffsetDateTime(Instant instant) { ... }
+
+  // ✅ Correct — extend the shared utility interface
+  @Mapper(componentModel = "spring")
+  public interface GuardianMapper extends InstantMapper, IdentityVerificationStatusMapper {
+      @Mapping(target = "avatarUrl", ignore = true)
+      GuardianProfile toProfile(GuardianEntity entity);
+  }
+  ```
+
+  Test (no Spring context, no Impl class reference):
+  ```java
+  class GuardianMapperTest {
+      private final GuardianMapper mapper = Mappers.getMapper(GuardianMapper.class);
+  }
+  ```
+
+  **Pattern B — `@Mapper`-annotated dependencies: use `uses` + `injectionStrategy = CONSTRUCTOR`**
+
+  When the dependency is itself a `@Mapper`-annotated interface (MapStruct generates a Spring bean for it), use `uses` and always add `injectionStrategy = InjectionStrategy.CONSTRUCTOR`. This makes the generated `Impl` constructor-based so tests can instantiate it by passing the dependencies explicitly without a Spring context.
+
+  ```java
+  @Mapper(
+      componentModel = "spring",
+      uses = {AddressMapper.class},
+      injectionStrategy = org.mapstruct.InjectionStrategy.CONSTRUCTOR
+  )
+  public interface GuardianFullMapper {
+      GuardianFullProfile toFullProfile(GuardianEntity entity, List<Address> addresses);
+  }
+  ```
+
+  Test (manually construct the impl via its generated constructor):
+  ```java
+  class GuardianFullMapperTest {
+      private final GuardianFullMapper mapper =
+              new GuardianFullMapperImpl(new AddressMapperImpl());
+  }
+  ```
+
+- **Reserve `qualifiedByName` for hierarchical / complex mapping** — when you must build a nested object from a flat source (e.g., assembling a `Location` record from multiple flat fields on a DAO row). See `JobShortInfoMapper` as the canonical example.
+
+- For `Map<String, Object>` → record mapping from dynamic queries:
+
+  ```java
+  @Mapper(componentModel = "spring")
+  public interface MunicipalityRowMapper {
+      MunicipalityRow fromMap(Map<String, Object> source);
+  }
+  ```
+
+- **If a utility mapper for a type does not yet exist, create it** as a plain Java interface with `default` methods in `controllers/utils/` before reaching for `qualifiedByName`.
+
+### Utility mapper conventions (controllers/utils/)
+
+| Class | Converts |
+|-------|---------|
+| `InstantMapper` | `Instant` ↔ `OffsetDateTime` |
+| `IdentityVerificationStatusMapper` | `Consts.IdentityVerificationStatus` → API `IdentityVerificationStatus` |
+| `JobStatusMapper` | `Consts.JobStatus` → API `JobStatus` |
+| `UserRoleMapper` | `Consts.Roles` → API `UserRole` |
+| `ResourceMapper` | `byte[]` ↔ Spring `Resource` |
+
+When a new enum or type needs mapping across the controller boundary, **add a new utility mapper** to this package rather than adding inline conversion logic to the consuming mapper.
 
 ---
 
@@ -961,6 +1080,36 @@ class MunicipalityServiceMapperTest {
 }
 ```
 
+When the mapper extends plain utility interfaces, `Mappers.getMapper()` works directly — no Spring context, no generated Impl class reference:
+
+```java
+class GuardianMapperTest {
+
+    // Works without Spring — utility interface default methods are baked in by MapStruct
+    private final GuardianMapper mapper = Mappers.getMapper(GuardianMapper.class);
+
+    @Test
+    void toProfile_mapsNameFields() {
+        var entity = buildGuardianEntity();
+        var profile = mapper.toProfile(entity);
+        assertThat(profile.getEmail()).isEqualTo(entity.getEmail());
+        assertThat(profile.getAvatarUrl()).isNull(); // ignored field
+    }
+}
+```
+
+When the mapper uses `uses = {SomeDependentMapper.class}` with `injectionStrategy = CONSTRUCTOR`, pass dependencies via the generated constructor:
+
+```java
+class GuardianFullMapperTest {
+
+    private final GuardianFullMapper mapper =
+            new GuardianFullMapperImpl(new AddressMapperImpl());
+
+    @Test
+    void toFullProfile_includesAddresses() { ... }
+}
+```
 ---
 
 ### Full context tests (use sparingly)

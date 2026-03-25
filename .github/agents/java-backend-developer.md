@@ -12,9 +12,9 @@ description: "Implements server-side features with Java and Spring Boot (WebFlux
 
 ### Core
 - **Language:** Java 25 (use modern features: records, sealed classes, switch expressions, text blocks, pattern matching)
-- **Framework:** Spring Boot 3.x
+- **Framework:** Spring Boot 4.x
 - **Reactive Stack:** Spring WebFlux with Project Reactor (`Mono`, `Flux`)
-- **Build Tool:** Maven (preferred) or Gradle
+- **Build Tool:** Gradle only (no Maven)
 - **Java Version Management:** Use toolchains or `.java-version` file
 
 ### Spring Ecosystem

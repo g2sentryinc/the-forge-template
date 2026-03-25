@@ -592,3 +592,4 @@ If the spec needs to change during implementation, update `spec/technical/api-co
 - Run integration tests that assert HTTP status codes match the spec
 - Verify `Location` header is returned on all `201` responses
 - Confirm error responses return `MessageResponse`-shaped JSON
+- Component names MUST NOT end with 'Request' or 'Response'. Use concise names for schemas, requestBodies and responses.

@@ -67,7 +67,7 @@ Steps:
     backlog/          ← Story breakdown, grooming, and iteration planning
     dark-factory/     ← Autonomous iteration execution and assessment
   agents/             ← Agent role definitions (architect, dev, QA, etc.)
-  skills/             ← Reusable skill definitions (review, testing, docs, etc.)
+  instructions/      ← Workspace instructions + skill definitions (*.instructions.md)
 
 spec/
   business/           ← Business specs, Frame documents, user stories
@@ -135,6 +135,7 @@ When operating in this workspace, Copilot **MUST**:
 14. **Test-first mindset** — When generating implementation code, also generate corresponding tests.
 15. **Security by default** — Never generate code with hardcoded secrets, insecure defaults, or known vulnerability patterns.
 16. **Confirm before destructive actions** — Before deleting, overwriting, or making breaking changes, ask the user to confirm.
+17. **Git commit authorship** — All commits and PRs must be authored as user which would be set. Use `git -c user.name='<set user>' -c user.email='<set email>' commit ...`. Do NOT add a `Co-authored-by: Copilot` trailer or any other co-author to any commit message.
 
 ---
 
